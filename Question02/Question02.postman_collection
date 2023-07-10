@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "b8abfff2-7461-4fee-ac54-180dfdb4868b",
+		"name": "Senario01",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23848036",
+		"_collection_link": "https://planetary-station-743584.postman.co/workspace/TMOSS~796e8640-0c6d-4d85-babc-18ee7d3afb33/collection/23848036-b8abfff2-7461-4fee-ac54-180dfdb4868b?action=share&creator=23848036&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Alldata",
+			"item": []
+		},
+		{
+			"name": "get token",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GetBookingIds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains booking IDs\", function () {\r",
+							"    var responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.be.an('array').that.is.not.empty;\r",
+							"    \r",
+							"    for (var i = 0; i < responseBody.length; i++) {\r",
+							"        pm.expect(responseBody[i]).to.have.property('bookingid');\r",
+							"        pm.expect(responseBody[i].bookingid).to.be.a('number');\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restful-booker.herokuapp.com/booking",
+					"protocol": "https",
+					"host": [
+						"restful-booker",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBooking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body has correct fields\", function () {\r",
+							"    var responseBody = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseBody).to.have.property(\"firstname\");\r",
+							"    pm.expect(responseBody).to.have.property(\"lastname\");\r",
+							"    pm.expect(responseBody).to.have.property(\"totalprice\");\r",
+							"    pm.expect(responseBody).to.have.property(\"depositpaid\");\r",
+							"    pm.expect(responseBody).to.have.property(\"bookingdates\");\r",
+							"    pm.expect(responseBody).to.have.property(\"additionalneeds\");\r",
+							"\r",
+							"    pm.expect(responseBody.firstname).to.be.a(\"string\");\r",
+							"    pm.expect(responseBody.lastname).to.be.a(\"string\");\r",
+							"    pm.expect(responseBody.totalprice).to.be.a(\"number\");\r",
+							"    pm.expect(responseBody.depositpaid).to.be.a(\"boolean\");\r",
+							"    pm.expect(responseBody.bookingdates).to.be.an(\"object\");\r",
+							"    pm.expect(responseBody.additionalneeds).to.be.a(\"string\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://restful-booker.herokuapp.com/booking/2",
+					"protocol": "https",
+					"host": [
+						"restful-booker",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"booking",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBooking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body has booking ID and details\", function () {\r",
+							"    var responseBody = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseBody).to.have.property(\"bookingid\");\r",
+							"    pm.expect(responseBody.bookingid).to.be.a(\"number\");\r",
+							"    pm.expect(responseBody).to.have.property(\"booking\").that.is.an(\"object\");\r",
+							"\r",
+							"    var booking = responseBody.booking;\r",
+							"    pm.expect(booking).to.have.property(\"firstname\").that.is.a(\"string\");\r",
+							"    pm.expect(booking).to.have.property(\"lastname\").that.is.a(\"string\");\r",
+							"    pm.expect(booking).to.have.property(\"totalprice\").that.is.a(\"number\");\r",
+							"    pm.expect(booking).to.have.property(\"depositpaid\").that.is.a(\"boolean\");\r",
+							"    pm.expect(booking).to.have.property(\"bookingdates\").that.is.an(\"object\");\r",
+							"    pm.expect(booking).to.have.property(\"additionalneeds\").that.is.a(\"string\");\r",
+							"\r",
+							"    var bookingDates = booking.bookingdates;\r",
+							"    pm.expect(bookingDates).to.have.property(\"checkin\").that.is.a(\"string\");\r",
+							"    pm.expect(bookingDates).to.have.property(\"checkout\").that.is.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"// Positive Scenario - Successful Booking Creation\r",
+							"pm.test(\"Create Booking - Successful\", function () {\r",
+							"    // Verify the response status code is 200\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    // Verify the response body contains the booking ID and details\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"bookingid\");\r",
+							"    pm.expect(pm.response.json().bookingid).to.be.a(\"number\");\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"booking\").that.is.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"// Negative Scenario - Missing Required Field\r",
+							"pm.test(\"Create Booking - Missing Required Field\", function () {\r",
+							"    // Verify the response status code is 400\r",
+							"    pm.response.to.have.status(400);\r",
+							"\r",
+							"    // Verify the response body contains the error message for the missing field\r",
+							"    pm.expect(pm.response.json().error).to.equal(\"Missing required field(s)\");\r",
+							"});\r",
+							"\r",
+							"// Negative Scenario - Invalid Data Type\r",
+							"pm.test(\"Create Booking - Invalid Data Type\", function () {\r",
+							"    // Verify the response status code is 400\r",
+							"    pm.response.to.have.status(400);\r",
+							"\r",
+							"    // Verify the response body contains the error message for the invalid data type\r",
+							"    pm.expect(pm.response.json().error).to.equal(\"Invalid data type\");\r",
+							"});\r",
+							"\r",
+							"// Negative Scenario - Invalid Date Format\r",
+							"pm.test(\"Create Booking - Invalid Date Format\", function () {\r",
+							"    // Verify the response status code is 400\r",
+							"    pm.response.to.have.status(400);\r",
+							"\r",
+							"    // Verify the response body contains the error message for the invalid date format\r",
+							"    pm.expect(pm.response.json().error).to.equal(\"Invalid date format\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\" : \"Jim\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}"
+				},
+				"url": {
+					"raw": "https://restful-booker.herokuapp.com/booking",
+					"protocol": "https",
+					"host": [
+						"restful-booker",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
